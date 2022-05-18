@@ -62,6 +62,12 @@ public class Board {
 	
 	
 	
+	public Long getSeq() {
+		return seq;
+	}
+	public void setSeq(Long seq) {
+		this.seq = seq;
+	}
 	public String getTitle() {
 		return title;
 	}

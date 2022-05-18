@@ -1,5 +1,6 @@
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -31,15 +32,49 @@ public class JPAClient {
 			
 			Board board=new Board();
 			
-			board.setTitle("제목");
+			board.setTitle("제목4");
 			board.setWriter("관리자");
-			board.setContent("JPA 글 등록 잘 되네요");
+			board.setContent("JPA 글4 등록 잘 되네요");
 			board.setCreateDate(new Date());
-			board.setCnt(0L);
+			board.setCnt(2L);
+			
+			em.persist(board);
+			
+			Board board2=new Board();
+			board2.setTitle("제목5");
+			board2.setWriter("관리자");
+			board2.setContent("JPA 글5 등록 잘 되네요");
+			board2.setCreateDate(new Date());
+			board2.setCnt(3L);
 			
 			//글 등록
-			em.persist(board);  //persist()메소드를 이용하여 Board 엔티티에 설정된 값을 BOARD 테이블에 저장
+			em.persist(board2);  //persist()메소드를 이용하여 Board 엔티티에 설정된 값을 BOARD 테이블에 저장
 			
+			
+			
+			//수정할 게시글 조회
+			
+			//Board board=em.find(Board.class, 1L);
+			//board.setTitle("수정된 제목");
+			
+			
+			
+			//삭제할 게시글 조회
+//			Board board1=em.find(Board.class, 1L);
+//			board1.setSeq(1L);
+			
+			//게시글 삭제			
+//			board1.setSeq(1L);
+//			em.remove(board1);
+		
+
+			//글 목록 조회
+			String jpql="select b from Board b order by b.seq desc";
+			
+			List<Board> boardList=em.createQuery(jpql, Board.class).getResultList();
+			for(Board i : boardList) {
+				System.out.println(i.toString());
+			}
 			
 			//persist(Object entity) 엔티티를 영속화한다(INSERT).
 			//merge(Object entity) 준영속상태의 엔티티를 영속화한다.(UPDATE)

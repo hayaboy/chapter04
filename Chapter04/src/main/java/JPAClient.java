@@ -20,7 +20,7 @@ public class JPAClient {
 		EntityManager em = emf.createEntityManager();
 
 		
-		//Transaction 생성
+		//Transaction 생성(JPA가 실제 테이블에 등록/수정/삭제 작업을 처리하기 위해서는 해당 작업이 반드시 트랜잭션 안에서 수행되어야 한다.)
 		EntityTransaction tx=em.getTransaction();
 		
 		try {
@@ -31,14 +31,29 @@ public class JPAClient {
 			
 			Board board=new Board();
 			
-			board.setTitle("제목3");
+			board.setTitle("제목");
 			board.setWriter("관리자");
-			board.setContent("JPA 글 등록 연습3");
+			board.setContent("JPA 글 등록 잘 되네요");
 			board.setCreateDate(new Date());
 			board.setCnt(0L);
 			
 			//글 등록
-			em.persist(board);
+			em.persist(board);  //persist()메소드를 이용하여 Board 엔티티에 설정된 값을 BOARD 테이블에 저장
+			
+			
+			//persist(Object entity) 엔티티를 영속화한다(INSERT).
+			//merge(Object entity) 준영속상태의 엔티티를 영속화한다.(UPDATE)
+			//remove(Object entity) 영속상태의 엔티티를 제거ㅏ다.(DELETE)
+			//find(Class<T> entityClass, Object primaryKey) 하나의 엔티티를 검색한다.(SELECT ONE)
+			//createQuery(String jpql, Class<T> resultClass) JPQL에 해당하는 엔티티 목록 검색(SELECt LIST)
+			
+			
+			
+			
+			
+			//글 조회
+//			Board boardResult=em.find(Board.class, 3L);
+//			System.out.println(boardResult.toString());
 			
 			
 			//Transaction commit
@@ -47,6 +62,8 @@ public class JPAClient {
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+			//Transaction rollback
+			tx.rollback();
 		}finally {
 			em.close();
 			emf.close();
